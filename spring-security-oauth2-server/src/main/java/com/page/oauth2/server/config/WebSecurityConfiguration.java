@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -22,9 +21,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
         auth.inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder().encode("123456")).roles("ADMIN")
+                // 在内存中创建用户并为密码加密
+                .withUser("user").password(passwordEncoder().encode("123456")).roles("USER")
                 .and()
-                .withUser("user").password(passwordEncoder().encode("123456")).roles("USER");
+                .withUser("admin").password(passwordEncoder().encode("123456")).roles("ADMIN");
+
     }
 }
